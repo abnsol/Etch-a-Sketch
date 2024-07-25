@@ -6,7 +6,8 @@ const color = ["rgb(175, 7, 7)","rgb(7, 176, 176)",'rgb(7, 176, 50)','rgb(7, 134
 
 // create grid
 function createGrid(size){
-    const cellDimension = (500 - (size * 2)) / size;
+    // no border
+    const cellDimension = (500) / size;
     curSize = size;
 
     // make row
@@ -14,10 +15,10 @@ function createGrid(size){
     // add row to grid
     for (let i = 0;i < size;i++){
         const row = document.createElement("span");
-        row.setAttribute("style","display:flex; flex:1 1 0;")
+        row.setAttribute("style","display:flex;  border:none;")
         for(let j = 0;j < size;j++){
             const cell = document.createElement("div");
-            cell.setAttribute("style",`width:${cellDimension}px; height:${cellDimension}px; flex:1 1 0; opacity:0.7;`);
+            cell.setAttribute("style",`width:${cellDimension}px; height:${cellDimension}px; flex:1 1 0; opacity:0.7; border:none`);
             cell.setAttribute("class",'grids');
             row.appendChild(cell);
         }
@@ -79,7 +80,6 @@ function changeOpacity(event){
 
     if (btnId.textContent === 'Darken cell onclick'){
         opacity += 0.1
-        console.log(opacity);
         if (opacity < 1){
             e.style.opacity = opacity;
         }

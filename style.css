@@ -15,16 +15,14 @@ body{
     height: 500px;
     display: flex;
     flex-wrap: wrap;
-    margin: 40px;
-    margin-top: 0px;
     background-color: rgb(218, 213, 213);
+    border-radius: 10px;
 }
 
-#newGrid,#erase,#changeOpacity{
+#newGrid,#erase,#changeOpacity,#clear,#random{
     width:200px;
     height:50px;
     background-color:antiquewhite;
-    margin:40px 10px;
     border-radius: 10px;
     color: rgb(175, 7, 7);   
 }
@@ -56,4 +54,22 @@ a{
 
 #title{
     font-family:monospace;
+}
+
+#bdy{
+    display:flex;
+    align-items: stretch;
+}
+
+#btns,#container{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex:1;
+    margin: 100px;
+}
+
+#btns{
+    flex-direction: column;
+    gap: 40px;
 }

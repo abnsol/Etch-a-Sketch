@@ -1,6 +1,8 @@
 let gridContainer = document.querySelector("#gridContainer");
 let footer = document.querySelector("#footer");
-let btnId = document.querySelector('#changeOpacity');
+let changeOpac = document.querySelector('#changeOpacity');
+let container = document.querySelector('#container');
+
 let curSize = 16;
 const color = ["rgb(175, 7, 7)","rgb(7, 176, 176)",'rgb(7, 176, 50)','rgb(7, 134, 176)']
 
@@ -18,7 +20,7 @@ function createGrid(size){
         row.setAttribute("style","display:flex;  border:none;")
         for(let j = 0;j < size;j++){
             const cell = document.createElement("div");
-            cell.setAttribute("style",`width:${cellDimension}px; height:${cellDimension}px; flex:1 1 0; opacity:0.7; border:none`);
+            cell.setAttribute("style",`width:${cellDimension}px; height:${cellDimension}px; flex:1 1 0; opacity:0.5; border:none`);
             cell.setAttribute("class",'grids');
             row.appendChild(cell);
         }
@@ -28,10 +30,10 @@ function createGrid(size){
 
 // remove grid container
 function removeContainer(){
-    document.body.removeChild(gridContainer)
+    container.removeChild(gridContainer)
     gridContainer = document.createElement("div");
     gridContainer.setAttribute("id","gridContainer");
-    document.body.insertBefore(gridContainer,footer);
+    container.appendChild(gridContainer,footer);
 }
 
 //handle event listeners
@@ -43,11 +45,18 @@ function addGlobalEventListeners(type,selector,callback){
 
 //handlers
 function changeColor(event){
+    // erase or draw?
+    let erase = document.querySelector("#erase");
+    let e = event.target;
     if (Draw){
-        const random = Math.floor(Math.random() * color.length); 
-        event.target.style.backgroundColor = color[random];        
+        if (erase.textContent === 'Eraser'){
+            const random = Math.floor(Math.random() * color.length); 
+            e.style.backgroundColor = color[random];
+        }
+        else{
+            e.style.backgroundColor = "rgb(218, 213, 213)";
+        }           
     }
-    
 }
 
 function newGrid(){
@@ -59,16 +68,16 @@ function newGrid(){
     createGrid(size);
 }
 
-function erase(){
+function clear(){
     removeContainer();
     createGrid(curSize);
 }
 
 function changeBtn(){
-    if (btnId.textContent === 'Darken cell onclick'){
-        btnId.textContent = 'Lighten cell onclick';
+    if (changeOpac.textContent === 'Darken cell onclick'){
+        changeOpac.textContent = 'Lighten cell onclick';
     }else{
-       btnId.textContent = 'Darken cell onclick';
+       changeOpac.textContent = 'Darken cell onclick';
     }        
 }
 
@@ -78,7 +87,7 @@ function changeOpacity(event){
     console.log(styles)
     opacity = parseFloat(getStyleValue(styles,'opacity'));
 
-    if (btnId.textContent === 'Darken cell onclick'){
+    if (changeOpac.textContent === 'Darken cell onclick'){
         opacity += 0.1
         if (opacity < 1){
             e.style.opacity = opacity;
@@ -91,10 +100,20 @@ function changeOpacity(event){
     }    
 }
 
+// helper for changeOpacity
 function getStyleValue(styles,value){
     for (let s of styles){
         const [key,val] = s.split(':').map(kv => kv.trim());
         if (key === value) return val;
+    }
+}
+
+function changeEraserDraw(event){
+    let e = event.target
+    if (e.textContent === 'Eraser'){
+        e.textContent = 'Draw';
+    }else{
+        e.textContent = 'Eraser';
     }
 }
 
@@ -104,11 +123,15 @@ addGlobalEventListeners("mousedown",".grids",(event) =>{
     Draw = true;
     changeColor(event);
 })
-addGlobalEventListeners("mouseover",".grids",changeColor);
-addGlobalEventListeners('mouseup',".grids",(event)=>{
+
+addGlobalEventListeners("mousemove",".grids",(e) => changeColor(e));
+
+addGlobalEventListeners('mouseup',".grids",()=>{
     Draw = false;
 })
+
 addGlobalEventListeners("click","#newGrid",newGrid);
-addGlobalEventListeners("click","#erase",erase);
+addGlobalEventListeners("click","#clear",clear);
 addGlobalEventListeners("click","#changeOpacity",changeBtn);
 addGlobalEventListeners("click",".grids",changeOpacity);
+addGlobalEventListeners("click","#erase",changeEraserDraw);

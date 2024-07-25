@@ -17,7 +17,7 @@ function createGrid(size){
         row.setAttribute("style","display:flex; flex:1 1 0;")
         for(let j = 0;j < size;j++){
             const cell = document.createElement("div");
-            cell.setAttribute("style",`width:${cellDimension}px; height:${cellDimension}px; border: 1px solid rgb(33, 42, 54); flex:1 1 0; opacity:0.5;`);
+            cell.setAttribute("style",`width:${cellDimension}px; height:${cellDimension}px; flex:1 1 0; opacity:0.7;`);
             cell.setAttribute("class",'grids');
             row.appendChild(cell);
         }
@@ -42,8 +42,11 @@ function addGlobalEventListeners(type,selector,callback){
 
 //handlers
 function changeColor(event){
-    const random = Math.floor(Math.random() * color.length); 
-    event.target.style.backgroundColor = color[random];
+    if (Draw){
+        const random = Math.floor(Math.random() * color.length); 
+        event.target.style.backgroundColor = color[random];        
+    }
+    
 }
 
 function newGrid(){
@@ -95,9 +98,16 @@ function getStyleValue(styles,value){
     }
 }
 
-
+let Draw = false;
 createGrid(curSize);
+addGlobalEventListeners("mousedown",".grids",(event) =>{
+    Draw = true;
+    changeColor(event);
+})
 addGlobalEventListeners("mouseover",".grids",changeColor);
+addGlobalEventListeners('mouseup',".grids",(event)=>{
+    Draw = false;
+})
 addGlobalEventListeners("click","#newGrid",newGrid);
 addGlobalEventListeners("click","#erase",erase);
 addGlobalEventListeners("click","#changeOpacity",changeBtn);

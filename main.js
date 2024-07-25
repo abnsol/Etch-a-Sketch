@@ -2,9 +2,24 @@ let gridContainer = document.querySelector("#gridContainer");
 let footer = document.querySelector("#footer");
 let changeOpac = document.querySelector('#changeOpacity');
 let container = document.querySelector('#container');
+let rainbowMode = document.querySelector("#random"); 
 
 let curSize = 16;
-const color = ["rgb(175, 7, 7)","rgb(7, 176, 176)",'rgb(7, 176, 50)','rgb(7, 134, 176)']
+const color = [
+    "rgb(175, 7, 7)",
+    "rgb(7, 176, 176)",
+    "rgb(7, 176, 50)",
+    "rgb(7, 134, 176)",
+    "rgb(255, 87, 34)",
+    "rgb(255, 193, 7)",
+    "rgb(233, 30, 99)",
+    "rgb(156, 39, 176)",
+    "rgb(33, 150, 243)",
+    "rgb(240, 240, 240)",
+    "rgb(128, 128, 128)",
+    "rgb(0, 0, 0)"
+];
+
 
 // create grid
 function createGrid(size){
@@ -20,7 +35,7 @@ function createGrid(size){
         row.setAttribute("style","display:flex;  border:none;")
         for(let j = 0;j < size;j++){
             const cell = document.createElement("div");
-            cell.setAttribute("style",`width:${cellDimension}px; height:${cellDimension}px; flex:1 1 0; opacity:0.5; border:none`);
+            cell.setAttribute("style",`width:${cellDimension}px; height:${cellDimension}px; flex:1 1 0; opacity:0.7; border:none`);
             cell.setAttribute("class",'grids');
             row.appendChild(cell);
         }
@@ -50,8 +65,12 @@ function changeColor(event){
     let e = event.target;
     if (Draw){
         if (erase.textContent === 'Eraser'){
-            const random = Math.floor(Math.random() * color.length); 
-            e.style.backgroundColor = color[random];
+            if (rainbowMode.textContent === 'Rainbow mode'){
+                e.style.backgroundColor = "rgb(175, 7, 7)";}
+            else{
+                const random = Math.floor(Math.random() * color.length); 
+                e.style.backgroundColor = color[random];
+            }
         }
         else{
             e.style.backgroundColor = "rgb(218, 213, 213)";
@@ -117,6 +136,15 @@ function changeEraserDraw(event){
     }
 }
 
+function changeRainbowMode(){
+    if (rainbowMode.textContent === 'Rainbow mode'){
+        rainbowMode.textContent = 'Dark Red';
+    }else{
+        rainbowMode.textContent = 'Rainbow mode';
+    }
+
+}
+
 let Draw = false;
 createGrid(curSize);
 addGlobalEventListeners("mousedown",".grids",(event) =>{
@@ -135,3 +163,4 @@ addGlobalEventListeners("click","#clear",clear);
 addGlobalEventListeners("click","#changeOpacity",changeBtn);
 addGlobalEventListeners("click",".grids",changeOpacity);
 addGlobalEventListeners("click","#erase",changeEraserDraw);
+addGlobalEventListeners("click","#random",changeRainbowMode);

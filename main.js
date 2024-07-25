@@ -1,5 +1,6 @@
 let gridContainer = document.querySelector("#gridContainer");
 let footer = document.querySelector("#footer");
+let btnId = document.querySelector('#changeOpacity');
 let curSize = 16;
 const color = ["rgb(175, 7, 7)","rgb(7, 176, 176)",'rgb(7, 176, 50)','rgb(7, 134, 176)']
 
@@ -16,7 +17,7 @@ function createGrid(size){
         row.setAttribute("style","display:flex; flex:1 1 0;")
         for(let j = 0;j < size;j++){
             const cell = document.createElement("div");
-            cell.setAttribute("style",`width:${cellDimension}px; height:${cellDimension}px; border: 1px solid rgb(33, 42, 54); flex:1 1 0;`);
+            cell.setAttribute("style",`width:${cellDimension}px; height:${cellDimension}px; border: 1px solid rgb(33, 42, 54); flex:1 1 0; opacity:0.5;`);
             cell.setAttribute("class",'grids');
             row.appendChild(cell);
         }
@@ -59,8 +60,45 @@ function erase(){
     createGrid(curSize);
 }
 
+function changeBtn(){
+    if (btnId.textContent === 'Darken cell onclick'){
+        btnId.textContent = 'Lighten cell onclick';
+    }else{
+       btnId.textContent = 'Darken cell onclick';
+    }        
+}
+
+function changeOpacity(event){
+    let e = event.target
+    let styles = e.getAttribute("style").split(';');
+    console.log(styles)
+    opacity = parseFloat(getStyleValue(styles,'opacity'));
+
+    if (btnId.textContent === 'Darken cell onclick'){
+        opacity += 0.1
+        console.log(opacity);
+        if (opacity < 1){
+            e.style.opacity = opacity;
+        }
+    }else{
+        opacity -= 0.1
+        if (opacity > 0){
+            e.style.opacity = opacity;
+        }
+    }    
+}
+
+function getStyleValue(styles,value){
+    for (let s of styles){
+        const [key,val] = s.split(':').map(kv => kv.trim());
+        if (key === value) return val;
+    }
+}
+
 
 createGrid(curSize);
 addGlobalEventListeners("mouseover",".grids",changeColor);
 addGlobalEventListeners("click","#newGrid",newGrid);
 addGlobalEventListeners("click","#erase",erase);
+addGlobalEventListeners("click","#changeOpacity",changeBtn);
+addGlobalEventListeners("click",".grids",changeOpacity);

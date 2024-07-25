@@ -20,7 +20,7 @@ body{
     background-color: rgb(218, 213, 213);
 }
 
-#newGrid,#erase{
+#newGrid,#erase,#changeOpacity{
     width:200px;
     height:50px;
     background-color:antiquewhite;

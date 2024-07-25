@@ -1,7 +1,7 @@
 let gridContainer = document.querySelector("#gridContainer");
 let footer = document.querySelector("#footer");
 let curSize = 16;
-//const color = ["rgb(175, 7, 7)","rgb(7, 176, 176)",'rgb(7, 176, 50)','rgb(7, 134, 176)']
+const color = ["rgb(175, 7, 7)","rgb(7, 176, 176)",'rgb(7, 176, 50)','rgb(7, 134, 176)']
 
 // create grid
 function createGrid(size){

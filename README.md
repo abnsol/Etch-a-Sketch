@@ -36,3 +36,7 @@ You can check out the live demo [Etch-a-Sketch](https://abnsol.github.io/Etch-a-
 ## Clone the repository:
    ```bash
    git clone https://github.com/abnsol/Etch-a-sketch.git
+   ```
+
+## Mentions
+Check out cool Icons [here](https://www.flaticon.com/)
